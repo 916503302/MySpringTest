@@ -1,43 +1,23 @@
 ﻿charset="utf-8";
 window.onload = function () {
 
-    //fire_ajax_submit();
-    initChart();
     getData();
-  // setInterval("getData()",1000);
+    initChart();
 
-console.log('儿网热若无');
-  //  getData(); //动态获取数据
-
+    showData()
 };
 
 var myChart;
-//var MydataGet;
-var hours;
+var orgList;
+var Trans  = new Array();
 
-var transactionid=[];//定义数组
-var myShiftDateA=[];
-var parentorder=[];
-var suborder=[];
-var payid=[];
-var transtype=[];
-var fromtype=[];
-var fromid=[];
-var totype=[];
-var toid=[];
-var productid=[];
-var productinfo=[];
-var organizationid=[];
-var amount=[];
-var price=[];
-var myDate=[];
-var search=[];
+
 function initChart() { //初始化图表
     var dataGet;
-    // 基于准备好的dom，初始化echarts实例
-  //  getData();
+
+
+    orgList = ["", "org1", "org2", "org3", ""]
     myChart = echarts.init(document.getElementById('main'));
-    hours = ['', '公司A', '公司B', '公司C','falfkldsjfkl ',"fdsafsfdsafsdfsa", ""];
     options = {
 
         title: {
@@ -68,7 +48,7 @@ function initChart() { //初始化图表
                 }
             },
             type: 'category',
-            data: hours,
+            data: orgList,
             scale: false,
             boundaryGap: false,
             splitLine: {
@@ -151,10 +131,8 @@ function getJsonLength(jsonData){
 
 
 function getData() {  //获取数据
-    console.log("eeee : ", "加一");
     search = {};
     search["userid"] = "userid0";
-    var Trans  = new Array();
 
     $.ajax({
         type: "POST",
@@ -166,49 +144,11 @@ function getData() {  //获取数据
         cache: false,
         timeout: 600000,
         success: function (data) {
-            console.log("logggg",data);
-           // console.log("logglengthgg",getJsonLength(data));
-            console.log("get data",data.length);
+
             for (var i = 0; i < data.length; i++) {
                 Trans[i] = data[i].Record;
                 console.log(Trans[i]);
             }
-            // for (var i = 0; i < data.transactionsResult.length; i++) {//数组的遍历
-            //     transactionid[i] = data.transactionsResult[i].transactionid;
-            //     myDate[i] = data.transactionsResult[i].transactiondate;
-            //     parentorder[i] = data.transactionsResult[i].parentorder;
-            //     suborder[i] = data.transactionsResult[i].suborder;
-            //     payid[i] = data.transactionsResult[i].payid;
-            //     transtype[i] = data.transactionsResult[i].transtype;
-            //     fromtype[i] = data.transactionsResult[i].fromtype;
-            //     fromid[i] = data.transactionsResult[i].fromid;
-            //     totype[i] = data.transactionsResult[i].totype;
-            //     toid[i] = data.transactionsResult[i].toid;
-            //     productid[i] = data.transactionsResult[i].productid;
-            //     productinfo[i] = data.transactionsResult[i].productinfo;
-            //     organizationid[i] = data.transactionsResult[i].organizationid;
-            //     amount[i] = data.transactionsResult[i].amount;
-            //     price[i] = data.transactionsResult[i].price;
-            //
-            //
-            //     console.log("GETTT : ", myDate[0] + productinfo[0]);
-            //     //   alert(data.transactionsResult[i].amount);
-            // }
-            for (var i = 0; i < data.transactionsResult.length; i++) {
-                myShiftDateA[i] = shitDate(myDate[i]);
-                // myShiftDateA[i] = ddd;
-                console.log("gg : ", myShiftDateA[i]);
-                console.log("hh : ", data.transactionsResult.length);
-                <!-- alert(myShiftDateA[i]); -->
-            }
-
-            console.log("OO : ", myShiftDateA[1]);
-            //myChart.setOption(options);
-            // console.log("ff : ", options);
-            console.log("SUCCESS : ", data);
-            // console.log("SUCCESS : ", data.transactionsResult[0].amount);
-            //  showEchaerts();
-
         },
         error: function (e) {
 
@@ -216,35 +156,35 @@ function getData() {  //获取数据
 
         }
     });
+    
+}
 
-    //将转换后的时间数据等加载到该数组然后在界面上显示
-    console.log("yaozhenshihaoren",Trans[0].transactiondate);
+function showData() {
 
-    dataGet = [ [Trans[0].transactiondate/100000, 5, 1 ,9],
-                [ Trans[1].transactiondate/100000, 5, 1,  9],
-                [Trans[2].transactiondate/10000, 5,2,9]];
+    var dataGet = [ [Trans[0].transactiondate/100000, 3, 10 ],
+
+        [ Trans[1].transactiondate/100000, 2, 10],
+
+        [Trans[2].transactiondate/10000, 1,10]];
     // X：时间；Y：公司；Z：大小  H :myDate；transactionid；parentorder；suborder；payid；transtype；fromtype；fromid；totype；toid；productid；productinfo；organizationid；amount；price
 
-    MydataGet = dataGet.map(function (item) {
-        return [item[1], item[0], item[2], item[3], item[4], item[5], item[6], item[7], item[8], item[9], item[10], item[11], item[12], item[13], item[14], item[15], item[16], item[17]];
+    var MydataGet = dataGet.map(function (item) {
+        return [item[1], item[0], item[2]];
     });
 
+
     myChart = echarts.init(document.getElementById('main'));
-    options = {
+    var options = {
         tooltip: {
             position: 'top',
             formatter: function (params) {
-                res = '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">'
+                var res = '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">'
 
                     + '</div>'
-                    + 'transactionid' + ':' + params.data.transactionid + '<br>'
-                    + 'transactiondate' + '：' + params.data.transactiondate + '<br>'
-                    + 'parentorder' + ':' + params.data.fromid + '<br>'
-                    + 'suborder' + ':' + params.data.toid + '<br>';
-
-
+                    + 'transactionid' + ':' + params.data[0] + '<br>'
+                    + 'transactiondate' + '：' + params.data[1] + '<br>'
+                    + 'parentorder' + ':' + params.data[2] + '<br>';
                 return res;
-                <!--  return '在' + hours[params.value[0]] + '期间，' + days[params.value[1]] + '共发表了'+params.value[2] + '份论文'; -->
             }
         },
         series: [{
@@ -263,7 +203,6 @@ function getData() {  //获取数据
     };
     myChart.setOption(options);
 }
-
 //将时间类型转换成数字形式
 function shitDate(my) {
     //  var date1= '2017/09/01 00:00:00';  //开始时间
@@ -274,13 +213,13 @@ function shitDate(my) {
     //计算出小时数
 
     var leave1 = date3 % (24 * 3600 * 1000); //计算天数后剩余的毫秒数
-    var hours = Math.floor(leave1 / (3600 * 1000));
+    var orgList = Math.floor(leave1 / (3600 * 1000));
     //计算相差分钟数
     var leave2 = leave1 % (3600 * 1000);       //计算小时数后剩余的毫秒数
     var minutes = Math.floor(leave2 / (60 * 1000));
     //计算相差秒数
     var leave3 = leave2 % (60 * 1000);     //计算分钟数后剩余的毫秒数
     var seconds = Math.round(leave3 / 1000);
-    var ggg = days + hours / 24 + minutes / 60 + seconds / 3600;
+    var ggg = days + orgList / 24 + minutes / 60 + seconds / 3600;
     return ggg;
 }
