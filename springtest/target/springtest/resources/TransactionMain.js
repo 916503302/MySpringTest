@@ -8,16 +8,14 @@ window.onload = function () {
 };
 
 var myChart;
-var orgList;
-var Trans  = new Array();
+var orgList =[""];
+var trans  = new Array();
 
 
 function initChart() { //初始化图表
-    var dataGet;
 
-
-    orgList = ["", "org1", "org2", "org3", ""]
     myChart = echarts.init(document.getElementById('main'));
+    console.log("orgList", orgList);
     options = {
 
         title: {
@@ -110,7 +108,6 @@ function initChart() { //初始化图表
         }
         ]
     };
-    console.log("hhhhuu : ", dataGet);
     myChart.setOption(options);
 }
 
@@ -120,7 +117,6 @@ function getJsonLength(jsonData){
     var jsonLength = 0;
 
     for(var item in jsonData){
-
         jsonLength++;
 
     }
@@ -133,7 +129,6 @@ function getJsonLength(jsonData){
 function getData() {  //获取数据
     search = {};
     search["userid"] = "userid0";
-
     $.ajax({
         type: "POST",
         contentType: "application/json",
@@ -142,12 +137,11 @@ function getData() {  //获取数据
         data: JSON.stringify(search),//自定义查询字段
         dataType: 'json',
         cache: false,
-        timeout: 600000,
+        timeout: 60000000,
         success: function (data) {
-
             for (var i = 0; i < data.length; i++) {
-                Trans[i] = data[i].Record;
-                console.log(Trans[i]);
+                trans[i] = data[i].Record;
+                console.log(trans[i]);
             }
         },
         error: function (e) {
@@ -160,33 +154,86 @@ function getData() {  //获取数据
 }
 
 function showData() {
+    var dataGet = new Array;
 
-    var dataGet = [ [Trans[0].transactiondate/100000, 3, 10 ],
+    for (var i=0; i < trans.length; i++) {
+        if (orgList.indexOf(trans[i].organizationid) == -1) {
+            orgList.push(trans[i].organizationid);
+        }
+    }
+    orgList.push("");
 
-        [ Trans[1].transactiondate/100000, 2, 10],
+    for (var i=0; i < trans.length; i++) {
 
-        [Trans[2].transactiondate/10000, 1,10]];
-    // X：时间；Y：公司；Z：大小  H :myDate；transactionid；parentorder；suborder；payid；transtype；fromtype；fromid；totype；toid；productid；productinfo；organizationid；amount；price
+        var date = trans[i].transactiondate/1000;
+        var column = orgList.indexOf(trans[i].organizationid);
+        var size = trans[i].amount * trans[i].price /100;
+        if (size >15) {
+            size = 15;
+        }
+        var index = i;
+        var tran = [date, column, size, index];
+        dataGet.push(tran);
+    }
 
     var MydataGet = dataGet.map(function (item) {
-        return [item[1], item[0], item[2]];
+        return [item[1], item[0], item[2], item[3]];
     });
-
+    console.log(orgList)
+    console.log("baba is son's father", MydataGet);
 
     myChart = echarts.init(document.getElementById('main'));
     var options = {
         tooltip: {
             position: 'top',
             formatter: function (params) {
+                var index = params.data[3];
+
+
                 var res = '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">'
 
                     + '</div>'
-                    + 'transactionid' + ':' + params.data[0] + '<br>'
-                    + 'transactiondate' + '：' + params.data[1] + '<br>'
-                    + 'parentorder' + ':' + params.data[2] + '<br>';
+                    + 'transactionid' + ':' + trans[index].transactionid + '<br>'
+                    + 'transactiondate' + '：' + trans[index].transactiondate + '<br>'
+                    + 'Amout' + ':' + trans[index].amount + '<br>'
+                    + 'Price' + ':' + trans[index].price + '<br>';
+
                 return res;
             }
         },
+        xAxis: {
+            axisLabel: {
+                margin: 45,
+                textStyle: {
+                    fontSize: 25 // 让字体变大
+                }
+            },
+            type: 'category',
+            data: orgList,
+            scale: false,
+            boundaryGap: false,
+            splitLine: {
+                show: true,
+                lineStyle: {
+                    color: '#e5e5e5',
+                    width: 2,
+                    type: 'solid'
+
+
+                }
+            },
+            axisLine: {
+                show: true,
+                onZero: false,
+                lineStyle: {
+                    color: '#48b',
+                    width: 2,
+                    type: 'solid'
+
+                }
+            }
+        },
+
         series: [{
             name: '交易情况',
             type: 'scatter',

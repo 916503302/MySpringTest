@@ -102,7 +102,7 @@ public class Config {
             defaultProperty(DIAGNOTISTIC_FILE_DIRECTORY, null);
             defaultProperty(CHANNEL_CONFIG_WAIT_TIME, "15000");
             defaultProperty(ORDERER_RETRY_WAIT_TIME, "200");
-            defaultProperty(EVENTHUB_CONNECTION_WAIT_TIME, "1000");
+            defaultProperty(EVENTHUB_CONNECTION_WAIT_TIME, "8000");
 
             final String inLogLevel = sdkProperties.getProperty(LOGGERLEVEL);
 
