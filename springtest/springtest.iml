@@ -20,6 +20,7 @@
       </configuration>
     </facet>
   </component>
+  <component name="Go" enabled="true" />
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
@@ -118,5 +119,6 @@
     <orderEntry type="library" name="Maven: org.glassfish:javax.json:1.1" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:jquery:2.2.4" level="project" />
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.18" level="project" />
+    <orderEntry type="library" name="GOPATH &lt;springtest&gt;" level="project" />
   </component>
 </module>

@@ -1,0 +1,13 @@
+org/hyperledger/fabric/sdk/ChaincodeEvent.class
+org/hyperledger/fabric/sdk/TransactionRequest.class
+org/hyperledger/fabric_ca/sdk/exception/InfoException.class
+org/hyperledger/fabric/sdk/ChaincodeEndorsedActionDeserializer.class
+org/hyperledger/fabric/sdk/exception/ProposalException.class
+org/hyperledger/fabric/sdk/transaction/ProposalBuilder.class
+org/hyperledger/fabric/sdk/exception/BaseException.class
+org/hyperledger/fabric/sdk/ChaincodeActionDeserializer.class
+org/hyperledger/fabric/sdk/ProposalResponsePayloadDeserializer.class
+org/hyperledger/fabric/sdk/transaction/QueryInstalledChaincodesBuilder.class
+org/hyperledger/fabric/sdk/transaction/LSCCProposalBuilder.class
+org/hyperledger/fabric/sdk/TransactionRequest$Type.class
+org/hyperledger/fabric_ca/sdk/exception/BaseException.class

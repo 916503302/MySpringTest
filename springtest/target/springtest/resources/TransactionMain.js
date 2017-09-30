@@ -1,15 +1,15 @@
-﻿charset="utf-8";
+﻿﻿charset="utf-8";
 window.onload = function () {
 
-    getData();
     initChart();
-
+    getData();
     showData()
 };
 
 var myChart;
 var orgList =[""];
 var trans  = new Array();
+var y_axis = [0, 0];
 
 
 function initChart() { //初始化图表
@@ -128,7 +128,7 @@ function getJsonLength(jsonData){
 
 function getData() {  //获取数据
     search = {};
-    search["userid"] = "userid0";
+    search["userid"] = "00000000000022";
     $.ajax({
         type: "POST",
         contentType: "application/json",
@@ -165,22 +165,41 @@ function showData() {
 
     for (var i=0; i < trans.length; i++) {
 
-        var date = trans[i].transactiondate/1000;
+        var date = trans[i].transactiondate;
+        var formatTime = timeConverter(date);
+        if (y_axis[0] == 0){
+            y_axis[0]= formatTime;
+
+        }  else {
+            if (y_axis[0] > formatTime) {
+                y_axis[0] = formatTime;
+            }
+        }
+        if (y_axis[1] == 0){
+            y_axis[1]= formatTime;
+
+        }  else {
+            if (y_axis[1] < formatTime) {
+                y_axis[1] = formatTime;
+            }
+        }
+
+
         var column = orgList.indexOf(trans[i].organizationid);
         var size = trans[i].amount * trans[i].price /100;
-        if (size >15) {
-            size = 15;
-        }
+        size = 4;
+
         var index = i;
-        var tran = [date, column, size, index];
+        var tran = [date*1000, column, size, index];
         dataGet.push(tran);
     }
 
     var MydataGet = dataGet.map(function (item) {
         return [item[1], item[0], item[2], item[3]];
     });
-    console.log(orgList)
+    console.log(orgList);
     console.log("baba is son's father", MydataGet);
+    console.log("bash is ", y_axis);
 
     myChart = echarts.init(document.getElementById('main'));
     var options = {
@@ -188,13 +207,12 @@ function showData() {
             position: 'top',
             formatter: function (params) {
                 var index = params.data[3];
-
+                var formatTime = timeConverter(trans[index].transactiondate);
 
                 var res = '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">'
-
                     + '</div>'
                     + 'transactionid' + ':' + trans[index].transactionid + '<br>'
-                    + 'transactiondate' + '：' + trans[index].transactiondate + '<br>'
+                    + 'transactiondate' + '：' + formatTime + '<br>'
                     + 'Amout' + ':' + trans[index].amount + '<br>'
                     + 'Price' + ':' + trans[index].price + '<br>';
 
@@ -233,6 +251,37 @@ function showData() {
                 }
             }
         },
+        yAxis: {
+            type: 'time',
+            scale: true,
+            splitLine: {
+                show: false,
+                lineStyle: {
+                    color: '#e5e5e5',
+                    width: 2,
+                    type: 'solid'
+
+
+                }
+            },
+            axisLine: {
+                show: false,
+                formatter: function (timestamp) {
+                    var d = new Date(timestamp);
+                    //设置
+                    var s = d.getMonth() + '月' + d.getDate() + '日';
+                    return s;
+                },
+
+                lineStyle: {
+                    color: '#48b',
+                    type: 'dashed'
+                }
+
+
+            }
+
+        },
 
         series: [{
             name: '交易情况',
@@ -269,4 +318,33 @@ function shitDate(my) {
     var seconds = Math.round(leave3 / 1000);
     var ggg = days + orgList / 24 + minutes / 60 + seconds / 3600;
     return ggg;
+}
+
+function timeConverter(UNIX_timestamp){
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+
+    var date = a.getDate().toString();
+    if (date.length == 1) {
+        console.log(date);
+        date = "0" + date;
+    }
+
+    var hour = a.getHours().toString();
+    if (hour.length == 1) {
+        hour = "0" +hour;
+    }
+    var min = a.getMinutes().toString();
+    if (min.length == 1) {
+        min = "0" +min;
+    }
+    var sec = a.getSeconds().toString();
+    if (sec.length == 1) {
+        sec = "0" +sec;
+    }
+    var time = year + month + date + hour  + min  + sec ;
+    console.log(time);
+    return time;
 }
