@@ -113,17 +113,17 @@ public class Config {
             //////
             defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg1.mspid", "Org1MSP");
             defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg1.domname", "org1.example.com");
-            defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg1.ca_location", "http://localhost:7054");
+            defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg1.ca_location", "http://47.94.149.80:7054");
             defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg1.caName", "ca0");
-            defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg1.peer_locations", "peer0.org1.example.com@grpc://localhost:7051, peer1.org1.example.com@grpc://localhost:7056");
-            defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg1.orderer_locations", "orderer.example.com@grpc://localhost:7050");
-            defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg1.eventhub_locations", "peer0.org1.example.com@grpc://localhost:7053,peer1.org1.example.com@grpc://localhost:7058");
+            defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg1.peer_locations", "peer0.org1.example.com@grpc://47.94.149.80:7051, peer1.org1.example.com@grpc://47.94.149.80:7056");
+            defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg1.orderer_locations", "orderer.example.com@grpc://47.94.149.80:7050");
+            defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg1.eventhub_locations", "peer0.org1.example.com@grpc://47.94.149.80:7053,peer1.org1.example.com@grpc://47.94.149.80:7058");
             defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg2.mspid", "Org2MSP");
             defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg2.domname", "org2.example.com");
-            defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg2.ca_location", "http://localhost:8054");
-            defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg2.peer_locations", "peer0.org2.example.com@grpc://localhost:8051,peer1.org2.example.com@grpc://localhost:8056");
-            defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg2.orderer_locations", "orderer.example.com@grpc://localhost:7050");
-            defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg2.eventhub_locations", "peer0.org2.example.com@grpc://localhost:8053, peer1.org2.example.com@grpc://localhost:8058");
+            defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg2.ca_location", "http://47.94.149.80:8054");
+            defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg2.peer_locations", "peer0.org2.example.com@grpc://47.94.149.80:8051,peer1.org2.example.com@grpc://47.94.149.80:8056");
+            defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg2.orderer_locations", "orderer.example.com@grpc://47.94.149.80:7050");
+            defaultProperty(INTEGRATIONTESTS_ORG + "peerOrg2.eventhub_locations", "peer0.org2.example.com@grpc://47.94.149.80:8053, peer1.org2.example.com@grpc://47.94.149.80:8058");
 
             defaultProperty(INTEGRATIONTESTSTLS, null);
             runningTLS = null != sdkProperties.getProperty(INTEGRATIONTESTSTLS, null);
